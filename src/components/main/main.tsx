@@ -26,17 +26,14 @@ export const AppMain:FC = () => {
         <Box>
             <Flex gap={4}>
                 {textArr.map((char, index) => (
-                    <Text
-                        // as='span'
-                        // display='inline-block'
-                        // w='2.5'
+                    <Center
+                        w='3.5'
                         color={index >= currentIndex ? 'blackAlpha.600' : 'black'}
-                        // decoration='underline'
-                        borderBottom='1px solid black'
+                        borderBottom={`1px solid ${index >= currentIndex ? 'blackAlpha.600' : 'black'}`}
                         key={index}
                     >
                         {char}
-                    </Text>
+                    </Center>
                 ))}
             </Flex>
         </Box>
