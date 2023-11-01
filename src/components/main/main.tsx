@@ -29,7 +29,7 @@ export const AppMain:FC = () => {
                     <Center
                         w='3.5'
                         color={index >= currentIndex ? 'blackAlpha.600' : 'black'}
-                        borderBottom={`1px solid ${index >= currentIndex ? 'blackAlpha.600' : 'black'}`}
+                        borderBottom={`1px solid ${index >= currentIndex ? 'gray' : 'black'}`}
                         key={index}
                     >
                         {char}
