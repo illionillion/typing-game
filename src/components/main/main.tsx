@@ -14,6 +14,9 @@ export const AppMain:FC = () => {
             console.log('Hit!!');
             setCurrentIndex(prev => prev + 1)
             currentIndexRef.current = currentIndexRef.current + 1;
+            if (currentIndexRef.current === textArr.length) {
+                console.log('Clear!!');
+            }
         }
     
     }
