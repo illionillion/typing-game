@@ -6,6 +6,9 @@ const defaultText = 'Hello World'
 export const AppMain:FC = () => {
     const [textArr, setTextArr] = useState<string[]>(defaultText.split(''))
     const [currentIndex, setCurrentIndex] = useState<number>(0)
+    /**
+     * refに格納してレンダリングさせないようにする
+     */
     const currentIndexRef = useRef<number>(currentIndex);
 
     const pressKey = (e: KeyboardEvent) => {
