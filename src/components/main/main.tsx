@@ -1,7 +1,14 @@
 import { Box, Center, Flex, Text } from "@yamada-ui/react";
 import { FC, useEffect, useRef, useState } from "react";
 
-const defaultText = 'Hello World'
+const keyWordList = [
+    'Hello World',
+    'JavaScript',
+    'Windows',
+    'Python',
+    'GitHub',
+    'Model View Controller',
+]
 
 export const AppMain:FC = () => {
     const [textArr, setTextArr] = useState<string[]>(defaultText.split(''))
