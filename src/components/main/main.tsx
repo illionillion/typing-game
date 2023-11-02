@@ -11,7 +11,7 @@ const keyWordList = [
 ]
 
 export const AppMain:FC = () => {
-    const [textArr, setTextArr] = useState<string[]>(defaultText.split(''))
+    const [textArr, setTextArr] = useState<string[]>(keyWordList[0].split(''))
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     /**
      * refに格納してレンダリングさせないようにする
