@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Text } from "@yamada-ui/react";
+import { Box, Center, Flex } from "@yamada-ui/react";
 import { FC, useEffect, useRef, useState } from "react";
 
 const keyWordList = [
@@ -10,30 +10,49 @@ const keyWordList = [
     'Model View Controller',
 ]
 
-export const AppMain:FC = () => {
-    const [textArr, setTextArr] = useState<string[]>(keyWordList[0].split(''))
-    const [currentIndex, setCurrentIndex] = useState<number>(0)
+export const AppMain: FC = () => {
     /**
-     * refに格納してレンダリングさせないようにする
+     * 文字列の番号
      */
-    const currentIndexRef = useRef<number>(currentIndex);
+    const currentIndexRef = useRef<number>(0);
+    const [currentIndex, setCurrentIndex] = useState<number>(currentIndexRef.current)
+    /**
+     * 問題の番号
+     */
+    const arrIndexRef = useRef<number>(0);
+    const [arrIndex, setarrIndex] = useState<number>(arrIndexRef.current)
+    /**
+     * 問題の単語の文字列を配列にしたものを格納
+     */
+    const textArrRef = useRef<string[]>(keyWordList[arrIndex].split(''))
+    const [textArr, setTextArr] = useState<string[]>(textArrRef.current)
 
     const pressKey = (e: KeyboardEvent) => {
-        
-        if (textArr[currentIndexRef.current] === e.key) {
-            console.log('Hit!!');
-            setCurrentIndex(prev => prev + 1)
-            currentIndexRef.current = currentIndexRef.current + 1;
-            if (currentIndexRef.current === textArr.length) {
-                console.log('Clear!!');
-            }
+
+        // 入力値と合っているかどうか
+        if (textArrRef.current[currentIndexRef.current] !== e.key) return
+        console.log('Hit!!');
+        currentIndexRef.current = currentIndexRef.current + 1;
+        setCurrentIndex(currentIndexRef.current)
+        // 最後の文字かどうか
+        if (currentIndexRef.current !== textArrRef.current.length) return
+        console.log('Clear!!');
+        // 次の単語があるかどうか
+        if (keyWordList.length > arrIndexRef.current + 1) {
+            currentIndexRef.current = 0;
+            setCurrentIndex(currentIndexRef.current)
+            arrIndexRef.current = arrIndexRef.current + 1
+            setarrIndex(arrIndexRef.current)
+            textArrRef.current = keyWordList[arrIndexRef.current].split('')
+            setTextArr(textArrRef.current)
+        } else {
+            console.log('終了')
         }
-    
     }
-    
+
     useEffect(() => {
         window.addEventListener('keypress', pressKey)
-    },[])
+    }, [])
 
     return <Center w='100vw' h='100svh'>
         <Box>
