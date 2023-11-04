@@ -1,4 +1,4 @@
-import { Box, Center, Flex } from "@yamada-ui/react";
+import { Box, Button, Center, Flex, Text, VStack } from "@yamada-ui/react";
 import { FC, useEffect, useRef, useState } from "react";
 
 const keyWordList = [
@@ -27,7 +27,13 @@ export const AppMain: FC = () => {
     const textArrRef = useRef<string[]>(keyWordList[arrIndex].split(''))
     const [textArr, setTextArr] = useState<string[]>(textArrRef.current)
 
-    const pressKey = (e: KeyboardEvent) => {
+    const [isEnded, setIsEnded] = useState<boolean>(false)
+    /**
+     * キー入力時のイベント
+     * @param e 
+     * @returns 
+     */
+    const handlePressKey = (e: KeyboardEvent) => {
 
         // 入力値と合っているかどうか
         if (textArrRef.current[currentIndexRef.current] !== e.key) return
@@ -47,16 +53,33 @@ export const AppMain: FC = () => {
             setTextArr(textArrRef.current)
         } else {
             console.log('終了')
+            setIsEnded(() => true)
         }
     }
 
+    /**
+     * 再スタート
+     */
+    const handleRestart = () => {
+        currentIndexRef.current = 0;
+        setCurrentIndex(currentIndexRef.current)
+        arrIndexRef.current = 0
+        setarrIndex(arrIndexRef.current)
+        textArrRef.current = keyWordList[arrIndexRef.current].split('')
+        setTextArr(textArrRef.current)
+        setIsEnded(false)
+    }
+
     useEffect(() => {
-        window.addEventListener('keypress', pressKey)
+        window.addEventListener('keypress', handlePressKey)
     }, [])
 
     return <Center w='100vw' h='100svh'>
-        <Box>
-            <Flex gap={4}>
+        <VStack gap={3}>
+            <Center>
+                <Text>{arrIndex + 1} / {keyWordList.length}</Text>
+            </Center>
+            <Flex justify={'center'} gap={4}>
                 {textArr.map((char, index) => (
                     <Center
                         w='3.5'
@@ -68,6 +91,12 @@ export const AppMain: FC = () => {
                     </Center>
                 ))}
             </Flex>
-        </Box>
+            {isEnded && 
+                <Center gap={5}>
+                    <Text color='red'>Clear!!</Text>
+                    <Button onClick={handleRestart}>Restart</Button>
+                </Center>
+            }
+        </VStack>
     </Center>
 }
