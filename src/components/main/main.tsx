@@ -27,13 +27,17 @@ export const AppMain: FC = () => {
     const textArrRef = useRef<string[]>(keyWordList[arrIndex].split(''))
     const [textArr, setTextArr] = useState<string[]>(textArrRef.current)
 
+    const [isCorrect, setIsCorrect] = useState<boolean>(false)
     const [isEnded, setIsEnded] = useState<boolean>(false)
+
+    const timer = (s: number) => new Promise((resolve) => setTimeout(resolve, s))
+
     /**
      * キー入力時のイベント
      * @param e 
      * @returns 
      */
-    const handlePressKey = (e: KeyboardEvent) => {
+    const handlePressKey = async (e: KeyboardEvent) => {
 
         // 入力値と合っているかどうか
         if (textArrRef.current[currentIndexRef.current] !== e.key) return
@@ -43,6 +47,8 @@ export const AppMain: FC = () => {
         // 最後の文字かどうか
         if (currentIndexRef.current !== textArrRef.current.length) return
         console.log('Clear!!');
+        setIsCorrect(true)
+        await timer(1000)
         // 次の単語があるかどうか
         if (keyWordList.length > arrIndexRef.current + 1) {
             currentIndexRef.current = 0;
@@ -55,6 +61,7 @@ export const AppMain: FC = () => {
             console.log('終了')
             setIsEnded(() => true)
         }
+        setIsCorrect(false)
     }
 
     /**
@@ -90,6 +97,7 @@ export const AppMain: FC = () => {
                         {char}
                     </Center>
                 ))}
+                {isCorrect && <Text color='green.500'>正解！！</Text>}
             </Flex>
             {isEnded && 
                 <Center gap={5}>
