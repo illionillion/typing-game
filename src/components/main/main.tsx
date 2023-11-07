@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, Text, VStack } from "@yamada-ui/react";
+import { Box, Button, Center, Flex, HStack, Text, VStack } from "@yamada-ui/react";
 import { FC, useEffect, useRef, useState } from "react";
 
 const keyWordList = [
@@ -30,6 +30,9 @@ export const AppMain: FC = () => {
     const [isCorrect, setIsCorrect] = useState<boolean>(false)
     const [isEnded, setIsEnded] = useState<boolean>(false)
 
+    const startTimeRef = useRef<number>(0)
+    const [endTIme, setEndTime] = useState<number>(0)
+
     const timer = (s: number) => new Promise((resolve) => setTimeout(resolve, s))
 
     /**
@@ -38,6 +41,8 @@ export const AppMain: FC = () => {
      * @returns 
      */
     const handlePressKey = async (e: KeyboardEvent) => {
+
+        if(!startTimeRef.current) startTimeRef.current = performance.now()
 
         // 入力値と合っているかどうか
         if (textArrRef.current[currentIndexRef.current] !== e.key) return
@@ -60,6 +65,7 @@ export const AppMain: FC = () => {
         } else {
             console.log('終了')
             setIsEnded(true)
+            setEndTime(Math.floor(((performance.now() - startTimeRef.current) / 1000) * 10) / 10)
         }
         setIsCorrect(false)
     }
@@ -74,6 +80,8 @@ export const AppMain: FC = () => {
         setarrIndex(arrIndexRef.current)
         textArrRef.current = keyWordList[arrIndexRef.current].split('')
         setTextArr(textArrRef.current)
+        startTimeRef.current = 0
+        setEndTime(0)
         setIsEnded(false)
     }
 
@@ -100,9 +108,12 @@ export const AppMain: FC = () => {
                 {isCorrect && <Text color='green.500'>正解！！</Text>}
             </Flex>
             {isEnded && 
-                <Center gap={5}>
-                    <Text color='red'>Clear!!</Text>
-                    <Button onClick={handleRestart}>Restart</Button>
+                <Center gap={5} flexDir='column'>
+                    <HStack>
+                        <Text color='red'>Clear!!</Text>
+                        <Button onClick={handleRestart}>Restart</Button>
+                    </HStack>
+                    <Text>{endTIme} 秒</Text>
                 </Center>
             }
         </VStack>
