@@ -59,7 +59,7 @@ export const AppMain: FC = () => {
             setTextArr(textArrRef.current)
         } else {
             console.log('終了')
-            setIsEnded(() => true)
+            setIsEnded(true)
         }
         setIsCorrect(false)
     }
