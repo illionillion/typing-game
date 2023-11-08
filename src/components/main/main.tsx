@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, HStack, Text, VStack } from "@yamada-ui/react";
+import { Button, Center, Flex, HStack, Heading, Text, VStack } from "@yamada-ui/react";
 import { FC, useEffect, useRef, useState } from "react";
 
 const keyWordList = [
@@ -28,6 +28,7 @@ export const AppMain: FC = () => {
     const [textArr, setTextArr] = useState<string[]>(textArrRef.current)
 
     const [isCorrect, setIsCorrect] = useState<boolean>(false)
+    const [isStarted, setIsStarted] = useState<boolean>(false)
     const [isEnded, setIsEnded] = useState<boolean>(false)
 
     const startTimeRef = useRef<number>(0)
@@ -42,7 +43,7 @@ export const AppMain: FC = () => {
      */
     const handlePressKey = async (e: KeyboardEvent) => {
 
-        if(!startTimeRef.current) startTimeRef.current = performance.now()
+        if (!startTimeRef.current) startTimeRef.current = performance.now()
 
         // 入力値と合っているかどうか
         if (textArrRef.current[currentIndexRef.current] !== e.key) return
@@ -71,6 +72,13 @@ export const AppMain: FC = () => {
     }
 
     /**
+     * スタート
+     */
+    const handleStart = () => {
+        setIsStarted(true)
+    }
+
+    /**
      * 再スタート
      */
     const handleRestart = () => {
@@ -90,32 +98,39 @@ export const AppMain: FC = () => {
     }, [])
 
     return <Center w='100vw' h='100svh'>
-        <VStack gap={3}>
-            <Center>
-                <Text>{arrIndex + 1} / {keyWordList.length}</Text>
+        {!isStarted ? (
+            <Center flexDir='column' gap={5}>
+                <Heading>タイピングゲーム</Heading>
+                <Button colorScheme="indigo" onClick={handleStart}>Start</Button>
             </Center>
-            <Flex justify={'center'} gap={4}>
-                {textArr.map((char, index) => (
-                    <Center
-                        w='3.5'
-                        color={index >= currentIndex ? 'blackAlpha.600' : 'black'}
-                        borderBottom={`1px solid ${index >= currentIndex ? 'gray' : 'black'}`}
-                        key={index}
-                    >
-                        {char}
-                    </Center>
-                ))}
-                {isCorrect && <Text color='green.500'>正解！！</Text>}
-            </Flex>
-            {isEnded && 
-                <Center gap={5} flexDir='column'>
-                    <HStack>
-                        <Text color='red'>Clear!!</Text>
-                        <Button onClick={handleRestart}>Restart</Button>
-                    </HStack>
-                    <Text>{endTIme} 秒</Text>
+        ) :
+            <VStack gap={3}>
+                <Center>
+                    <Text>{arrIndex + 1} / {keyWordList.length}</Text>
                 </Center>
-            }
-        </VStack>
+                <Flex justify={'center'} gap={4}>
+                    {textArr.map((char, index) => (
+                        <Center
+                            w='3.5'
+                            color={index >= currentIndex ? 'blackAlpha.600' : 'black'}
+                            borderBottom={`1px solid ${index >= currentIndex ? 'gray' : 'black'}`}
+                            key={index}
+                        >
+                            {char}
+                        </Center>
+                    ))}
+                    {isCorrect && <Text color='green.500'>正解！！</Text>}
+                </Flex>
+                {isEnded &&
+                    <Center gap={5} flexDir='column'>
+                        <HStack>
+                            <Text color='red'>Clear!!</Text>
+                            <Button onClick={handleRestart}>Restart</Button>
+                        </HStack>
+                        <Text>{endTIme} 秒</Text>
+                    </Center>
+                }
+            </VStack>
+        }
     </Center>
 }
