@@ -121,7 +121,6 @@ export const AppMain: FC = () => {
                             {char}
                         </Center>
                     ))}
-                    {/* {isCorrect && <Text color='green.500'>正解！！</Text>} */}
                 </Flex>
                 {isEnded &&
                     <Center gap={5} flexDir='column'>
