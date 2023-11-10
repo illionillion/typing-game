@@ -112,14 +112,16 @@ export const AppMain: FC = () => {
                     {textArr.map((char, index) => (
                         <Center
                             w='3.5'
-                            color={index >= currentIndex ? 'blackAlpha.600' : 'black'}
-                            borderBottom={`1px solid ${index >= currentIndex ? 'gray' : 'black'}`}
+                            color={(isCorrect || isEnded ? 'green.500' : index >= currentIndex ? 'blackAlpha.600' : 'black')}
+                            borderBottomWidth='1px'
+                            borderBottomStyle='solid'
+                            borderBottomColor={isCorrect || isEnded ? 'green.500' : index >= currentIndex ? 'gray' : 'black'}
                             key={index}
                         >
                             {char}
                         </Center>
                     ))}
-                    {isCorrect && <Text color='green.500'>正解！！</Text>}
+                    {/* {isCorrect && <Text color='green.500'>正解！！</Text>} */}
                 </Flex>
                 {isEnded &&
                     <Center gap={5} flexDir='column'>
