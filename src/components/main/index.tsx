@@ -1,5 +1,5 @@
-import { Button, Center, Flex, HStack, Heading, Text, VStack } from "@yamada-ui/react";
-import { FC, useRef, useState } from "react";
+import { Button, Center, HStack, Heading, Text, VStack } from "@yamada-ui/react";
+import { FC, useEffect, useRef, useState } from "react";
 import { WordDisplay } from "../word";
 
 const keyWordList = [

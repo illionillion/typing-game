@@ -1,4 +1,4 @@
-import { AppMain } from '@/components/main/main'
+import { AppMain } from '@/components/main'
 import Head from 'next/head'
 
 export default function Home() {
