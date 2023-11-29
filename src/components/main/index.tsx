@@ -77,7 +77,6 @@ export const AppMain: FC = () => {
      */
     const handleStart = () => {
         setIsStarted(true)
-        window.addEventListener('keypress', handlePressKey)
     }
 
     /**
@@ -94,6 +93,10 @@ export const AppMain: FC = () => {
         setEndTime(0)
         setIsEnded(false)
     }
+
+    useEffect(() => {
+        window.addEventListener('keypress', handlePressKey)
+    }, [])
 
     return <Center w='100vw' h='100svh'>
         {!isStarted ? (
