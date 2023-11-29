@@ -1,5 +1,6 @@
 import { Button, Center, Flex, HStack, Heading, Text, VStack } from "@yamada-ui/react";
 import { FC, useRef, useState } from "react";
+import { WordDisplay } from "../word";
 
 const keyWordList = [
     'Hello World',
@@ -105,20 +106,7 @@ export const AppMain: FC = () => {
                 <Center>
                     <Text>{arrIndex + 1} / {keyWordList.length}</Text>
                 </Center>
-                <Flex justify={'center'} gap={4}>
-                    {textArr.map((char, index) => (
-                        <Center
-                            w='3.5'
-                            color={(isCorrect || isEnded ? 'green.500' : index >= currentIndex ? 'blackAlpha.600' : 'black')}
-                            borderBottomWidth='1px'
-                            borderBottomStyle='solid'
-                            borderBottomColor={isCorrect || isEnded ? 'green.500' : index >= currentIndex ? 'gray' : 'black'}
-                            key={index}
-                        >
-                            {char}
-                        </Center>
-                    ))}
-                </Flex>
+                <WordDisplay {...{textArr, currentIndex, isCorrect, isEnded}} />
                 {isEnded &&
                     <Center gap={5} flexDir='column'>
                         <HStack>
